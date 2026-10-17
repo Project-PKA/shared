@@ -1,0 +1,4 @@
+# Regras do Spectral para o contrato (validate-openapi.yml).
+# Sem este arquivo a action falha com "No ruleset has been found".
+# Bloqueia em erro; aviso (descrição faltando etc.) só aparece no PR.
+extends: ["spectral:oas"]
