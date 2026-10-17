@@ -65,5 +65,6 @@ substituir o filtro por `store_id` no código (defesa em profundidade).
   `set_config`), nunca da sessão.
 - **Custo:** pequeno overhead por consulta (a política vira predicado) e mais
   uma peça para manter nas migrations. Aceito diante do tipo de dado guardado.
-- **Entrega:** vai na **Etapa 2** do backlog, junto com a autenticação e o
-  middleware multi-tenant, antes de qualquer rota de negócio.
+- **Entrega:** feita na Etapa 2a do Backend (migration `0009_rls-e-papeis`,
+  `withContext` e `test/rls.integration.test.ts`, com o papel `app_api` sem
+  `BYPASSRLS`). O papel do bot entra no bootstrap do `whatsapp_microservice`.

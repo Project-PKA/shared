@@ -100,7 +100,7 @@ C4Context
   Chamadas diretas entre os dois (ex.: "reconectar sessão") ainda não foram
   decididas; se existirem, vira ADR.
 - **Segredos:** não documentar valores. A sessão do WhatsApp
-  (`stores.whatsapp_session_data`) é credencial e deve ficar criptografada em
+  (`whatsapp_sessions.session_data`, tabela própria) é credencial e deve ficar criptografada em
   repouso. O local dos demais segredos de produção é decidido no
   `Backend/BOOTSTRAP.md`, etapa 8.
 
