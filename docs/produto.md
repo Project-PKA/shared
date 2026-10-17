@@ -27,7 +27,7 @@ dados 100% isolados.
 | --- | --- | --- |
 | 1 | **Acesso somente por convite.** Não existe cadastro aberto. A landing tem "Solicitar acesso", não "Criar conta" ([ADR 0012](adr/0012-acesso-somente-por-convite-e-administracao-da-plataforma.md)) | Adendo |
 | 2 | Login sem senha: e-mail + código OTP de 6 dígitos ([ADR 0008](adr/0008-autenticacao-passwordless-e-multi-tenant.md)) | Doc 01 + adendo |
-| 3 | Só o administrador cria lojas. Um usuário só cria lojas por conta própria se o administrador liberar a **permissão global**, com **limite de lojas** | Adendo |
+| 3 | Só o administrador cria lojas. Um usuário só cria lojas por conta própria se o administrador liberar a **permissão global**, com **limite de lojas**. O limite conta as lojas em que a pessoa é **proprietária** (definido na Sprint 01) | Adendo |
 | 4 | **A plataforma não realiza vendas nem garante pagamento ou entrega.** Pagamento e envio são combinados entre loja e comprador ([ADR 0013](adr/0013-plataforma-nao-vende-nem-garante-pagamento-ou-entrega.md)) | Adendo (reforça a [ADR 0002](adr/0002-mvp-sem-pagamento-e-sem-envio.md)) |
 | 5 | O recurso se chama **"Acertos e cadastro de compradores"**. O nome "Anti-Calote" não é usado | Adendo |
 | 6 | **Cada leilão é de uma carta só.** Não há leilão com várias cartas | Doc 01 + adendo |
