@@ -1,0 +1,4 @@
+# Segredos e configuração local: nunca commitar
+.env
+.env.*
+!.env.example
