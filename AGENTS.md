@@ -21,6 +21,8 @@ Repositórios do projeto: `Project-PKA/Backend`, `Project-PKA/frontend_web`,
 - [`docs/adr/`](docs/adr/): decisões que afetam mais de um repositório.
 - [`docs/produto.md`](docs/produto.md): escopo de produto (papéis, regras de
   negócio vigentes e mapa de telas).
+- [`docs/processo.md`](docs/processo.md): issues, sprints e rótulos (vale para os
+  quatro repositórios).
 - [`GLOSSARY.md`](GLOSSARY.md): vocabulário de domínio.
 - [`CONTRIBUTING.md`](CONTRIBUTING.md): como propor mudanças.
 
