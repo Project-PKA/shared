@@ -4,7 +4,7 @@ Data: 2026-10-17
 
 ## Status
 
-Aceita
+Aceita. Complementada pela [ADR 0013](0013-plataforma-nao-vende-nem-garante-pagamento-ou-entrega.md).
 
 ## Contexto
 

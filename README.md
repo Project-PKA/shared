@@ -10,7 +10,8 @@ roda código de aplicação** e não tem deploy. Ele guarda:
 | Arquivo | O que é |
 | --- | --- |
 | [`ARCHITECTURE.md`](ARCHITECTURE.md) | Como os repositórios se conectam, diagrama C4, autenticação entre serviços e riscos aceitos |
-| [`docs/adr/`](docs/adr/) | Decisões que afetam mais de um repositório (ADRs 0001 a 0010) |
+| [`docs/produto.md`](docs/produto.md) | Escopo de produto: papéis, regras e mapa de telas (doc 01 + adendo do design) |
+| [`docs/adr/`](docs/adr/) | Decisões que afetam mais de um repositório (ADRs 0001 a 0014) |
 | [`GLOSSARY.md`](GLOSSARY.md) | Vocabulário de negócio, com o nome de cada termo no código |
 | [`openapi.yaml`](openapi.yaml) | Contrato de API, **gerado pelo Backend** e publicado aqui por PR |
 | [`docs/secrets.md`](docs/secrets.md) | Nome do secret deste repositório |

@@ -12,7 +12,7 @@ O sistema cuida do estoque (próprio e consignado), do disparo automático da
 carta no grupo, da leitura em tempo real dos lances, do fechamento (acerto)
 e da moderação da comunidade. Cada loja é um tenant com dados 100% isolados.
 
-Estágio: produto novo, MVP enxuto. Sem gateway de pagamento e sem gestão de
+Estágio: produto novo, MVP enxuto. O escopo de produto completo (papéis, regras e mapa de telas) está em [`docs/produto.md`](docs/produto.md). Sem gateway de pagamento e sem gestão de
 envio nesta fase (ver [ADR 0002](docs/adr/0002-mvp-sem-pagamento-e-sem-envio.md)).
 
 ## Repositórios do projeto
@@ -36,6 +36,8 @@ C4Context
     title Diagrama de Contexto do Sistema — pokemonAuction
 
     Person(lojista, "Lojista / Funcionário", "Gerencia estoque, leilões, clientes e acertos pelo painel web")
+    Person(admin, "Administrador da plataforma", "Cria lojas, convida e suspende usuários pela área /admin")
+    Person(publico, "Visitante, comprador ou consignador", "Usa a landing, a vitrine e as páginas públicas por link")
     Person(participante, "Participante do grupo", "Dá lances no grupo de WhatsApp com #ID valor. Não precisa de cadastro")
 
     System_Boundary(sistema, "pokemonAuction") {
@@ -50,6 +52,8 @@ C4Context
     System_Ext(email, "Provedor de e-mail", "Envio do código OTP. A DECIDIR")
 
     Rel(lojista, frontend, "Usa", "HTTPS")
+    Rel(admin, frontend, "Usa /admin", "HTTPS")
+    Rel(publico, frontend, "Páginas públicas, sem login", "HTTPS")
     Rel(frontend, backend, "Consome API", "HTTPS/JSON — contrato em openapi.yaml")
     Rel(backend, db, "Lê e escreve", "SQL")
     Rel(bot, db, "Lê e escreve tabelas restritas", "SQL, role própria")
@@ -79,6 +83,13 @@ C4Context
   `Authorization`, com refresh token em cookie `httpOnly`, rotacionado. Toda rota autenticada, exceto
   a de seleção de loja, exige o header `x-store-id`; o Backend valida em
   `store_members` e filtra tudo por `store_id`.
+- **Acesso por convite:** não há cadastro aberto. Contas nascem por convite
+  ou pelo administrador da plataforma, que não altera dados internos das lojas
+  ([ADR 0012](docs/adr/0012-acesso-somente-por-convite-e-administracao-da-plataforma.md)).
+- **Páginas públicas** (vitrine, acerto do cliente, acompanhamento do
+  consignador) usam token de alta entropia no link, limite de tentativas e
+  funções de banco restritas, nunca a sessão de um usuário
+  ([ADR 0014](docs/adr/0014-paginas-publicas-por-link-e-vitrine.md)).
 - **Papéis:** `OWNER` (acesso total) e `STAFF` (padrão: tudo, exceto deletar),
   com permissões finas em JSONB. Um e-mail pode pertencer a várias lojas, com
   dados isolados.
@@ -100,6 +111,13 @@ C4Context
   o custo de mensageria em zero (ver ADR 0007).
 - **LGPD.** O sistema guarda CPF, endereço, telefone e e-mail de terceiros.
   Pendente: base legal, retenção e exclusão. Resolver antes de ter loja real.
+- **Superfícies públicas com dado de terceiros.** A página do consignador usa
+  uma chave fraca (4 dígitos do CPF) e a vitrine expõe o link do grupo de
+  WhatsApp da loja. Mitigações obrigatórias na ADR 0014; o link do grupo é
+  risco aceito pela loja ao ativar a vitrine.
+- **Posição jurídica da plataforma.** Ela não vende nem garante pagamento ou
+  entrega ([ADR 0013](docs/adr/0013-plataforma-nao-vende-nem-garante-pagamento-ou-entrega.md)).
+  Termos de uso e Política de Privacidade precisam de revisão jurídica.
 - **Concorrência de lances.** Dois lances quase simultâneos na mesma carta
   precisam de regra determinística para decidir o maior. Decidir no schema,
   antes do motor de leilões, e registrar em ADR.

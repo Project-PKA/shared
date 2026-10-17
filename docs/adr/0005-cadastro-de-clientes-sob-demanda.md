@@ -4,7 +4,7 @@ Data: 2026-10-17
 
 ## Status
 
-Aceita
+Aceita. Complementada pela [ADR 0014](0014-paginas-publicas-por-link-e-vitrine.md): o comprador passa a preencher os próprios dados numa página pública de acerto.
 
 ## Contexto
 

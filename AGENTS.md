@@ -19,6 +19,8 @@ Repositórios do projeto: `Project-PKA/Backend`, `Project-PKA/frontend_web`,
 - [`ARCHITECTURE.md`](ARCHITECTURE.md): como os repositórios se conectam,
   autenticação entre serviços, diagrama C4 e riscos aceitos.
 - [`docs/adr/`](docs/adr/): decisões que afetam mais de um repositório.
+- [`docs/produto.md`](docs/produto.md): escopo de produto (papéis, regras de
+  negócio vigentes e mapa de telas).
 - [`GLOSSARY.md`](GLOSSARY.md): vocabulário de domínio.
 - [`CONTRIBUTING.md`](CONTRIBUTING.md): como propor mudanças.
 
@@ -56,6 +58,8 @@ Essas decisões pertencem a este repositório, via issue e ADR
 ## Pendências conhecidas
 
 Marcadas como `PENDENTE` ou `A DECIDIR` nas ADRs e no `ARCHITECTURE.md`:
-formato do `short_code` no banco, provedor
+provedor
 de e-mail do OTP, estratégia de concorrência de lances, LGPD, canal de aviso
-em tempo real do painel.
+em tempo real do painel, cobrança da assinatura da plataforma, armazenamento de
+arquivos (fotos, avatar, comprovante) e como "Avisar cliente no WhatsApp"
+envia a mensagem. Detalhes em `docs/produto.md`, seção 6.

@@ -69,3 +69,43 @@ frontend_web, `bot` = whatsapp_microservice.
 | Painel operacional | Home em tempo real: status do WhatsApp, vendas, lances, rankings e acertos pendentes, filtrada por 1, 7, 15 ou 30 dias. | `dashboard/operational` | `backend`, `frontend` |
 | Dashboard financeiro | Visão de backoffice: faturamento bruto, lucro líquido, ticket médio, contas a pagar a consignadores. | A DECIDIR | `backend`, `frontend` |
 | Inatividade | Regra opcional da loja para remover do grupo quem não interage há X dias. | `inactivity_days_limit` | `backend`, `frontend`, `bot` |
+
+## Acesso e administração da plataforma
+
+| Termo | Definição | Termo no código | Repositórios |
+|---|---|---|---|
+| Administrador da plataforma | Quem opera o SaaS. Cria lojas, convida, suspende e define permissões globais. Não altera estoque, leilões, WhatsApp nem equipe de uma loja. | `is_platform_admin` | `backend`, `frontend` |
+| Convite | Autorização de entrada, com loja, papel, permissões e validade. Não existe cadastro aberto. | `invitation` | `backend`, `frontend` |
+| Solicitação de acesso | Pedido feito pelo formulário público da landing. O administrador decide recusar ou criar a loja e convidar. | `access_request` | `backend`, `frontend` |
+| Usuário convidado | Conta criada por convite que ainda não aceitou. | `INVITED` | `backend`, `frontend` |
+| Usuário suspenso | Conta impedida de entrar, sem perda de dados. | `SUSPENDED` | `backend`, `frontend` |
+| Permissão global | Liberação dada pelo administrador a um usuário, como "pode criar novas lojas". | `can_create_stores` | `backend`, `frontend` |
+| Limite de lojas | Quantas lojas próprias um usuário com permissão global pode criar. | `store_limit` | `backend`, `frontend` |
+| Transferir propriedade | Ação do administrador: o proprietário atual vira funcionário e outra pessoa vira proprietário. | `transfer_ownership` | `backend`, `frontend` |
+| Plano | Pacote contratado pela loja, com limites de grupos, membros e cartas. A mudança é solicitada à administração. | `plan` | `backend`, `frontend` |
+| Log de atividades | Registro de quem excluiu, aprovou ou alterou permissões. Visível só ao proprietário. | `activity_log` | `backend`, `frontend` |
+
+## Estoque e leilão: complementos do design
+
+| Termo | Definição | Termo no código | Repositórios |
+|---|---|---|---|
+| Observações | Texto livre da loja sobre a carta física. | `notes` | `backend`, `frontend` |
+| Carta sem leilão | Carta `AVAILABLE` sem leilão agendado ou em andamento. Aparece na Home como lembrete e KPI. | derivado | `backend`, `frontend` |
+| Lançar agora | Opção do cadastro que abre o leilão imediatamente. As outras são agendar e deixar para depois. | `start_now` | `backend`, `frontend`, `bot` |
+| Estender leilão | Somar tempo ao fim de um ou de todos os leilões ativos (ex.: "+30 min"), usado após queda do WhatsApp. | `extend` | `backend`, `frontend`, `bot` |
+| Aprovar encerramento | Ação do lojista numa enquete que atingiu o teto. A alternativa é "Manter aberto". | `approve_poll` | `backend`, `frontend`, `bot` |
+| Vitrine pública | Página da plataforma com os leilões ao vivo das lojas que optaram por aparecer. | `public_showcase` | `backend`, `frontend` |
+
+## Acerto, envio e páginas públicas
+
+| Termo | Definição | Termo no código | Repositórios |
+|---|---|---|---|
+| Acertos e cadastro de compradores | Nome do recurso de fechamento. Não é garantia de pagamento nem de entrega (ADR 0013). | `settlements` | `backend`, `frontend` |
+| Página de acerto | Página pública, por link, em que o comprador vê as cartas e o frete, informa CPF e endereço com consentimento LGPD e avisa o pagamento. | `settlement_link` | `backend`, `frontend` |
+| Consentimento LGPD | Registro de que o comprador aceitou o tratamento dos dados: quem, quando, versão do texto. | `consent` | `backend`, `frontend` |
+| Chave PIX da loja | Dado da loja exibido na página de acerto. O pagamento é combinado direto com a loja. | `pix_key` | `backend`, `frontend` |
+| Comprovante | Arquivo opcional que o comprador anexa ao avisar o pagamento. | `payment_proof` | `backend`, `frontend` |
+| Envio | Etapa depois da venda confirmada: a enviar, enviado, entregue, com código de rastreio. | `shipment` | `backend`, `frontend` |
+| Acompanhamento do consignador | Página pública, por link, em que o dono de uma carta consignada vê o leilão e a estimativa de repasse. | `consignor_link` | `backend`, `frontend` |
+| Chave de acesso | Segundo fator do acompanhamento: os 4 primeiros dígitos do CPF do consignador. Nunca é a única proteção (ADR 0014). | `access_key` | `backend`, `frontend` |
+| Estimativa de repasse | Maior lance menos a comissão da loja. Só vale após o encerramento e a confirmação da venda. | `estimated_payout` | `backend`, `frontend` |

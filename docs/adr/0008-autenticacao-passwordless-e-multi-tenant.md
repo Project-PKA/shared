@@ -4,7 +4,7 @@ Data: 2026-10-17
 
 ## Status
 
-Aceita
+Aceita. Complementada pela [ADR 0012](0012-acesso-somente-por-convite-e-administracao-da-plataforma.md): não há cadastro aberto, e existe o papel de administrador da plataforma.
 
 ## Contexto
 
