@@ -40,9 +40,9 @@ jobs:
       matrix:
         # >>> PLACEHOLDER: substituir pelos repositórios reais do projeto.
         repo:
-          - "SUA-ORG/SEU-BACKEND"
-          - "SUA-ORG/SEU-FRONTEND"
-          # - "SUA-ORG/SEU-MICROSERVICE"
+          - "Project-PKA/frontend_web"
+          # O Backend publica o contrato aqui (publish-contract.yml), não o consome.
+          # O whatsapp_microservice acessa o banco, não a API: sem tipos gerados.
     steps:
       - name: Disparar evento para ${{ matrix.repo }}
         uses: peter-evans/repository-dispatch@v3
