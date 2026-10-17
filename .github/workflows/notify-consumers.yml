@@ -1,0 +1,86 @@
+name: Notify contract consumers
+
+# Quando openapi.yaml muda na branch principal, dispara um evento
+# repository_dispatch para cada repositório consumidor configurado abaixo,
+# para que eles (ex.: via workflow próprio ouvindo esse evento) regenerem
+# clients/types a partir do contrato atualizado.
+#
+# >>> PLACEHOLDER — configurar ao criar um projeto real a partir deste
+# template (ver BOOTSTRAP.md, passo "configuração dos nomes dos
+# repositórios de destino em notify-consumers.yml"):
+#
+#   1. Preencher a matriz `repo` abaixo com os repositórios da mesma
+#      organização que devem ser notificados (ex.: "minha-org/backend",
+#      "minha-org/frontend").
+#   2. Criar um secret neste repositório chamado CONTRACT_DISPATCH_TOKEN,
+#      com um token (fine-grained PAT ou GitHub App) que tenha permissão
+#      de "Contents: read and write" (ou "Actions: write", dependendo de
+#      como o repositório de destino consome o evento) nos repositórios
+#      de destino. O GITHUB_TOKEN padrão NÃO tem permissão para disparar
+#      eventos em outros repositórios.
+#   3. Em cada repositório consumidor, criar um workflow que escute
+#      `repository_dispatch` com o `event_type: openapi-contract-updated`
+#      (ver exemplo comentado no final deste arquivo).
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "openapi.yaml"
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    name: Disparar repository_dispatch
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # >>> PLACEHOLDER: substituir pelos repositórios reais do projeto.
+        repo:
+          - "SUA-ORG/SEU-BACKEND"
+          - "SUA-ORG/SEU-FRONTEND"
+          # - "SUA-ORG/SEU-MICROSERVICE"
+    steps:
+      - name: Disparar evento para ${{ matrix.repo }}
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.CONTRACT_DISPATCH_TOKEN }}
+          repository: ${{ matrix.repo }}
+          event-type: openapi-contract-updated
+          client-payload: >-
+            {
+              "ref": "${{ github.sha }}",
+              "repository": "${{ github.repository }}",
+              "contract_path": "openapi.yaml"
+            }
+
+# ---------------------------------------------------------------------------
+# Exemplo de workflow a criar no repositório CONSUMIDOR (ex.: frontend),
+# em .github/workflows/regenerate-api-types.yml:
+#
+# on:
+#   repository_dispatch:
+#     types: [openapi-contract-updated]
+#
+# jobs:
+#   regenerate:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#       - name: Baixar contrato atualizado
+#         run: |
+#           curl -sL \
+#             "https://raw.githubusercontent.com/${{ github.event.client_payload.repository }}/main/openapi.yaml" \
+#             -o openapi.yaml
+#       - name: Regenerar types
+#         run: npm run generate:api-types
+#       - name: Abrir PR com os types atualizados
+#         uses: peter-evans/create-pull-request@v6
+#         with:
+#           commit-message: "chore: regenerate API types from updated contract"
+#           title: "chore: sync API types with docs/shared@${{ github.event.client_payload.ref }}"
+#           branch: sync/openapi-contract
+# ---------------------------------------------------------------------------

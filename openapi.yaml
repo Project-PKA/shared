@@ -1,0 +1,78 @@
+openapi: 3.0.3
+info:
+  title: "[NOME DO PROJETO] API"
+  description: >
+    Contrato de API único e compartilhado entre backend e frontend deste projeto.
+    Este arquivo é a fonte única de verdade: qualquer mudança de contrato passa
+    por PR neste repositório antes de ser implementada nos repositórios consumidores.
+  version: 0.1.0
+  contact:
+    name: "[Time responsável pelo backend]"
+
+servers:
+  - url: https://api.example.com/v1
+    description: Produção (placeholder — ajustar ao criar o projeto real)
+  - url: https://staging-api.example.com/v1
+    description: Staging (placeholder)
+
+tags:
+  - name: health
+    description: Endpoints de verificação de disponibilidade do serviço
+
+paths:
+  /health:
+    get:
+      operationId: getHealth
+      summary: Verifica a disponibilidade do serviço
+      description: >
+        Endpoint de exemplo. Substituir/expandir pelos endpoints reais do
+        domínio assim que o contrato de API do projeto for definido.
+      tags:
+        - health
+      responses:
+        "200":
+          description: Serviço disponível
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+        "503":
+          description: Serviço indisponível
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum: [ok, degraded]
+          example: ok
+
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          example: SERVICE_UNAVAILABLE
+        message:
+          type: string
+          example: "Serviço temporariamente indisponível"
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []

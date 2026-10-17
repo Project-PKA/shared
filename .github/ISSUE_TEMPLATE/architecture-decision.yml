@@ -1,0 +1,51 @@
+name: "Decisão de arquitetura a discutir"
+description: "Propor uma decisão de arquitetura que afeta mais de um repositório do projeto."
+title: "[ADR] "
+labels:
+  - "architecture-decision"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use este template para discutir uma decisão que afeta **mais de um
+        repositório** (backend, frontend, microservices). Se a decisão for
+        aceita, ela deve virar uma ADR em `docs/adr/`, seguindo o formato de
+        [`0001-registro-de-decisoes.md`](../../docs/adr/0001-registro-de-decisoes.md).
+
+  - type: textarea
+    id: contexto
+    attributes:
+      label: Contexto
+      description: Qual problema ou força motivadora exige essa decisão?
+    validations:
+      required: true
+
+  - type: textarea
+    id: repositorios-afetados
+    attributes:
+      label: Repositórios afetados
+      placeholder: |
+        - backend
+        - frontend
+    validations:
+      required: true
+
+  - type: textarea
+    id: opcoes
+    attributes:
+      label: Opções consideradas
+      description: Liste as alternativas avaliadas, mesmo que preliminarmente.
+    validations:
+      required: true
+
+  - type: textarea
+    id: recomendacao
+    attributes:
+      label: Recomendação (se houver)
+      description: Qual opção você recomenda e por quê? Pode deixar em aberto para discussão.
+
+  - type: textarea
+    id: contexto-adicional
+    attributes:
+      label: Contexto adicional
+      description: Links, discussões prévias, ADRs relacionadas.

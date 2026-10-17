@@ -1,0 +1,31 @@
+name: Validate OpenAPI contract
+
+# Garante que openapi.yaml continua sendo um documento OpenAPI válido em
+# todo PR que o toque. Este repositório não faz deploy de nada — esta é a
+# única validação "de build" que ele precisa.
+
+on:
+  pull_request:
+    paths:
+      - "openapi.yaml"
+      - ".spectral.yml"
+      - ".github/workflows/validate-openapi.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint com Spectral
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Rodar Spectral contra openapi.yaml
+        uses: stoplightio/spectral-action@v0.8.10
+        with:
+          file_glob: "openapi.yaml"
+          # Sem um .spectral.yml no repositório, o Spectral usa o ruleset
+          # "oas" embutido (boas práticas gerais de OpenAPI). Para regras
+          # específicas do projeto, adicionar um .spectral.yml na raiz.

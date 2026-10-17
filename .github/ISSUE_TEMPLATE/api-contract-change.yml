@@ -1,0 +1,55 @@
+name: "Mudança de contrato de API"
+description: "Propor uma mudança em openapi.yaml que afeta backend e/ou frontend."
+title: "[Contrato] "
+labels:
+  - "api-contract"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use este template para propor qualquer mudança em `openapi.yaml`.
+        Mudanças de contrato afetam todos os repositórios consumidores —
+        descreva com detalhe suficiente para revisão antes de abrir o PR.
+
+  - type: textarea
+    id: motivacao
+    attributes:
+      label: Motivação
+      description: Por que essa mudança é necessária? Qual problema resolve?
+    validations:
+      required: true
+
+  - type: textarea
+    id: mudanca-proposta
+    attributes:
+      label: Mudança proposta
+      description: >
+        Descreva a mudança no contrato (endpoint novo, campo alterado,
+        schema novo, etc.). Se possível, cole o trecho de YAML proposto.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: tipo
+    attributes:
+      label: Tipo de mudança
+      options:
+        - label: Compatível com versões anteriores (aditiva)
+        - label: Quebra compatibilidade (breaking change)
+
+  - type: textarea
+    id: repositorios-afetados
+    attributes:
+      label: Repositórios afetados
+      description: Quais repositórios precisam de mudanças após esta atualização de contrato?
+      placeholder: |
+        - backend: [o que muda]
+        - frontend: [o que muda]
+    validations:
+      required: true
+
+  - type: textarea
+    id: contexto-adicional
+    attributes:
+      label: Contexto adicional
+      description: Links, discussões prévias, ADRs relacionadas.

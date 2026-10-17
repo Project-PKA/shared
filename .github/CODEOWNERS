@@ -1,0 +1,24 @@
+# CODEOWNERS
+#
+# >>> PLACEHOLDER — ajustar ao criar um projeto real a partir deste
+# template. GitHub exige que os donos listados aqui sejam usuários ou times
+# com acesso de escrita a este repositório; times usam a forma
+# @org/nome-do-time.
+#
+# Regra geral sugerida: mudanças em contrato de API exigem revisão de
+# alguém do backend E de alguém do frontend, já que ambos são consumidores
+# diretos. Decisões de arquitetura exigem revisão de quem tiver
+# responsabilidade técnica cross-repo (tech lead, arquiteto, etc.).
+
+# Default: qualquer arquivo não coberto abaixo
+* @SUA-ORG/SEU-TIME-DE-PLATAFORMA
+
+# Contrato de API — exige revisão de backend e frontend
+/openapi.yaml @SUA-ORG/SEU-TIME-BACKEND @SUA-ORG/SEU-TIME-FRONTEND
+
+# Arquitetura e decisões cross-repo
+/ARCHITECTURE.md @SUA-ORG/SEU-TECH-LEAD
+/docs/adr/ @SUA-ORG/SEU-TECH-LEAD
+
+# Governança do próprio repositório template
+/.github/ @SUA-ORG/SEU-TIME-DE-PLATAFORMA
