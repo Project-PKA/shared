@@ -1,6 +1,6 @@
 # 1. Registro de decisões de arquitetura centralizado
 
-Data: [YYYY-MM-DD]
+Data: 2026-10-17
 
 ## Status
 
