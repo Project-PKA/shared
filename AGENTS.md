@@ -56,6 +56,6 @@ Essas decisões pertencem a este repositório, via issue e ADR
 ## Pendências conhecidas
 
 Marcadas como `PENDENTE` ou `A DECIDIR` nas ADRs e no `ARCHITECTURE.md`:
-formato do `short_code` no banco, credencial de sessão do frontend, provedor
+formato do `short_code` no banco, provedor
 de e-mail do OTP, estratégia de concorrência de lances, LGPD, canal de aviso
 em tempo real do painel.

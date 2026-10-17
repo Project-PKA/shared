@@ -75,8 +75,8 @@ C4Context
 - **Usuário no frontend:** login passwordless. Informa o e-mail e recebe um
   código OTP numérico por e-mail. O OTP é guardado como hash, com expiração e
   limite de tentativas (ver [ADR 0008](docs/adr/0008-autenticacao-passwordless-e-multi-tenant.md)).
-- **Frontend contra Backend:** credencial de sessão emitida após o OTP
-  (formato A DECIDIR no bootstrap do Backend). Toda rota autenticada, exceto
+- **Frontend contra Backend:** access JWT de vida curta no header
+  `Authorization`, com refresh token em cookie `httpOnly`, rotacionado. Toda rota autenticada, exceto
   a de seleção de loja, exige o header `x-store-id`; o Backend valida em
   `store_members` e filtra tudo por `store_id`.
 - **Papéis:** `OWNER` (acesso total) e `STAFF` (padrão: tudo, exceto deletar),
