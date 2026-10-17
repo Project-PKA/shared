@@ -82,6 +82,9 @@ C4Context
 - **Papéis:** `OWNER` (acesso total) e `STAFF` (padrão: tudo, exceto deletar),
   com permissões finas em JSONB. Um e-mail pode pertencer a várias lojas, com
   dados isolados.
+- **Isolamento entre lojas:** além do filtro por `store_id` no código, o
+  PostgreSQL aplica Row-Level Security por transação
+  ([ADR 0011](docs/adr/0011-row-level-security-como-segunda-barreira.md)).
 - **Backend e microservice:** compartilham o banco, cada um com sua role.
   Chamadas diretas entre os dois (ex.: "reconectar sessão") ainda não foram
   decididas; se existirem, vira ADR.
