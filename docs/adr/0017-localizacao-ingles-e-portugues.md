@@ -31,5 +31,4 @@ Backend foi escrito até aqui com comentários, mensagens de erro e documentaç�
   idioma é só acrescentar um arquivo de tradução.
 - **Mais difícil:** todo `code` novo de erro no Backend exige uma chave nos dois idiomas no frontend.
   Mitigação: um teste no frontend que falha se algum `code` do contrato OpenAPI não tiver tradução.
-- **Em aberto:** o Backend (comentários, `detail` dos erros, documentação) continua em português. Se o
-  dono quiser o mesmo padrão lá, é uma migração à parte (ver `OWNER.md`, D12).
+- **Backend:** por decisão do dono em 2026-10-18, continua com comentários, mensagens de erro e documentação em português. A regra de "código só em inglês" vale para o frontend.
