@@ -10,6 +10,7 @@ roda código de aplicação** e não tem deploy. Ele guarda:
 | Arquivo | O que é |
 | --- | --- |
 | [`ARCHITECTURE.md`](ARCHITECTURE.md) | Como os repositórios se conectam, diagrama C4, autenticação entre serviços e riscos aceitos |
+| [`OWNER.md`](OWNER.md) | **Canal do dono**: decisões e ações que dependem dele, e o que já foi resolvido |
 | [`docs/produto.md`](docs/produto.md) | Escopo de produto: papéis, regras e mapa de telas (doc 01 + adendo do design) |
 | [`docs/processo.md`](docs/processo.md) | Issues, sprints, rótulos e o que o agente pode fazer sozinho |
 | [`docs/adr/`](docs/adr/) | Decisões que afetam mais de um repositório (ADRs 0001 a 0014) |
@@ -42,18 +43,8 @@ roda código de aplicação** e não tem deploy. Ele guarda:
   `notify-consumers.yml` avisa os consumidores (hoje, o `frontend_web`) por
   `repository_dispatch`.
 
-## Pendências de configuração manual (GitHub)
+## Pendências do dono
 
-Estes passos não podem ser feitos por commit:
-
-- [ ] **Branch protection em `main`** (Settings → Branches): exigir PR antes de
-      merge e exigir que `validate-openapi.yml` passe.
-- [ ] **`CODEOWNERS`** ainda tem placeholders (`SUA-ORG/...`): trocar por
-      usuários ou times reais com acesso de escrita, e ativar "Require review
-      from Code Owners".
-- [ ] **Secret `CONTRACT_DISPATCH_TOKEN`** (ver [`docs/secrets.md`](docs/secrets.md)),
-      necessário só quando o `frontend_web` tiver o workflow que escuta o evento
-      `openapi-contract-updated` (exemplo no fim de `notify-consumers.yml`). Sem
-      o secret, o workflow falha ao tentar notificar.
-- [ ] Se este repositório ainda estiver marcado como **Template repository**
-      (Settings → General), desmarque: ele agora é o `shared` de um projeto real.
+Tudo que só o dono pode decidir ou fazer (conta, secrets, proteção de branch, decisões de
+produto) está em [`OWNER.md`](OWNER.md), o **canal principal** entre o agente e o dono.
+Este repositório não deve mais ser marcado como *Template repository*.

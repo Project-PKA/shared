@@ -1,5 +1,11 @@
 # AGENTS.md
 
+## Leia primeiro: OWNER.md
+
+[`OWNER.md`](OWNER.md) é o canal entre o agente e o dono. **No início de cada sessão, leia-o.**
+Se um item dele bloqueia a tarefa, pare e avise. Tudo que depender do dono (decisão, conta,
+secret, proteção de branch) é **escrito lá**, não só numa issue ou na conversa.
+
 ## O que é este repositório
 
 `Project-PKA/shared` é o `docs/shared` do **pokemonAuction** (nome
@@ -19,6 +25,7 @@ Repositórios do projeto: `Project-PKA/Backend`, `Project-PKA/frontend_web`,
 - [`ARCHITECTURE.md`](ARCHITECTURE.md): como os repositórios se conectam,
   autenticação entre serviços, diagrama C4 e riscos aceitos.
 - [`docs/adr/`](docs/adr/): decisões que afetam mais de um repositório.
+- [`OWNER.md`](OWNER.md): canal do dono (decisões e ações pendentes, resolvidos).
 - [`docs/produto.md`](docs/produto.md): escopo de produto (papéis, regras de
   negócio vigentes e mapa de telas).
 - [`docs/processo.md`](docs/processo.md): issues, sprints e rótulos (vale para os

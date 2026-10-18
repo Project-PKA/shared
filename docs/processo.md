@@ -5,6 +5,12 @@
 > do Backend e o [`produto.md`](produto.md). Aqui está **como** o trabalho é
 > organizado e conduzido.
 
+## Canal do dono
+
+O que depende do dono vai para [`OWNER.md`](../OWNER.md), que é a fonte. A issue com
+`decisao-pendente` ou `acao-do-dono` continua existindo como registro e aponta para lá. O agente
+lê o `OWNER.md` no início de cada sessão e o atualiza quando algo muda.
+
 ## Princípios
 
 - **Uma issue, uma entrega pequena e verificável.** Tamanho `G` pede para quebrar.
