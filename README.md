@@ -17,6 +17,7 @@ roda código de aplicação** e não tem deploy. Ele guarda:
 | [`GLOSSARY.md`](GLOSSARY.md) | Vocabulário de negócio, com o nome de cada termo no código |
 | [`openapi.yaml`](openapi.yaml) | Contrato de API, **gerado pelo Backend** e publicado aqui por PR |
 | [`docs/secrets.md`](docs/secrets.md) | Nome do secret deste repositório |
+| [`compose.yaml`](compose.yaml) | **Ambiente local completo** (banco, Redis, e-mail, API e frontend) para testar tudo junto, ver abaixo |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | Como propor mudanças |
 | [`AGENTS.md`](AGENTS.md) | Contexto para agentes de IA |
 
@@ -28,6 +29,25 @@ roda código de aplicação** e não tem deploy. Ele guarda:
 | [`whatsapp_microservice`](https://github.com/Project-PKA/whatsapp_microservice) | Sessões de WhatsApp, leitura de lances e moderação do grupo |
 | [`frontend_web`](https://github.com/Project-PKA/frontend_web) | Painel do lojista e landing page (UI/UX em andamento) |
 | **shared** (este) | Contrato, ADRs e glossário |
+
+## Rodar tudo localmente
+
+Com `Backend`, `frontend_web` e `shared` clonados lado a lado e o Docker ligado:
+
+```bash
+docker compose up -d --build        # banco, Redis, Mailpit, API e frontend
+docker compose run --rm seed        # dados de exemplo (apaga o banco; só desenvolvimento)
+```
+
+Abra o frontend em http://localhost:3000. O login é por código enviado ao e-mail: peça o código na
+tela e leia-o no Mailpit, em http://localhost:8025 (nada sai da sua máquina). Contas do seed:
+`dono@example.com`, `funcionario@example.com` e `admin@example.com`. A API fica em
+http://localhost:8081 (a 8080 é deixada livre) e as fotos e comprovantes ficam no volume
+`storage_data`. Para ser administrador da plataforma:
+`docker compose run --rm create-admin voce@exemplo.com "Seu Nome"`.
+
+`docker compose down` desliga e mantém os dados; `docker compose down -v` apaga tudo. O bot de WhatsApp
+ainda não tem código e não está incluído. Portas e detalhes: `compose.yaml` e `.env.example`.
 
 ## Como os outros repositórios usam este
 
