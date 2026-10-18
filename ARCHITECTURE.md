@@ -21,7 +21,7 @@ envio nesta fase (ver [ADR 0002](docs/adr/0002-mvp-sem-pagamento-e-sem-envio.md)
 |---|---|---|---|
 | `Project-PKA/Backend` | API principal, regras de negócio, auth, persistência e **dono das migrations** | Node.js + TypeScript, PostgreSQL, Drizzle | [repo](https://github.com/Project-PKA/Backend) |
 | `Project-PKA/frontend_web` | Painel web do lojista e landing page | A DECIDIR (ver `frontend_web/BOOTSTRAP.md`) | [repo](https://github.com/Project-PKA/frontend_web) |
-| `Project-PKA/whatsapp_microservice` | Sessões de WhatsApp por QR Code: leitura de lances, disparo e encerramento no grupo, moderação | Node.js + TypeScript, Baileys | [repo](https://github.com/Project-PKA/whatsapp_microservice) |
+| `Project-PKA/whatsapp_microservice` | Sessões de WhatsApp por QR Code: leitura de lances, disparo e encerramento no grupo, moderação | Python 3.10+ e neonize ([ADR 0015](docs/adr/0015-bot-em-python-com-neonize.md)); implementação adiada | [repo](https://github.com/Project-PKA/whatsapp_microservice) |
 | `Project-PKA/shared` | Contrato de API, ADRs cross-repo, glossário | Documentação | [repo](https://github.com/Project-PKA/shared) |
 
 Este repositório (`docs/shared`) não roda código de aplicação. Ele existe
@@ -43,7 +43,7 @@ C4Context
     System_Boundary(sistema, "pokemonAuction") {
         System(frontend, "Frontend Web", "Painel do lojista e landing page")
         System(backend, "Backend", "Node.js + TypeScript. API, auth, multi-tenant, fonte do contrato openapi.yaml")
-        System(bot, "WhatsApp Microservice", "Node.js + TypeScript + Baileys. Uma sessão por loja")
+        System(bot, "WhatsApp Microservice", "Python + neonize. Uma sessão por loja (implementação adiada)")
         SystemDb(db, "PostgreSQL", "Relacional + JSONB. Catálogo TCGdex local")
     }
 

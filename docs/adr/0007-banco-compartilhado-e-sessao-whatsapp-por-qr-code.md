@@ -4,7 +4,7 @@ Data: 2026-10-17
 
 ## Status
 
-Aceita
+Aceita. A biblioteca (Baileys) e a linguagem do bot foram substituídas pela [ADR 0015](0015-bot-em-python-com-neonize.md) (neonize, Python); o resto desta decisão (QR Code, banco compartilhado, role própria) continua valendo.
 
 ## Contexto
 
