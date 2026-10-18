@@ -1,24 +1,21 @@
 # CODEOWNERS
 #
-# >>> PLACEHOLDER — ajustar ao criar um projeto real a partir deste
-# template. GitHub exige que os donos listados aqui sejam usuários ou times
-# com acesso de escrita a este repositório; times usam a forma
-# @org/nome-do-time.
+# O autor de um PR não pode aprovar o próprio PR. Enquanto houver uma única pessoa,
+# NÃO exija aprovação de CODEOWNER na branch protection (exija só a validação do
+# contrato), senão nada mergeia. Veja OWNER.md, decisão D8.
 #
-# Regra geral sugerida: mudanças em contrato de API exigem revisão de
-# alguém do backend E de alguém do frontend, já que ambos são consumidores
-# diretos. Decisões de arquitetura exigem revisão de quem tiver
-# responsabilidade técnica cross-repo (tech lead, arquiteto, etc.).
+# Quando entrarem mais pessoas, troque @IgorOCosta por times (@Project-PKA/time-backend,
+# @Project-PKA/time-frontend) e exija revisão de backend E frontend no contrato.
 
-# Default: qualquer arquivo não coberto abaixo
-* @SUA-ORG/SEU-TIME-DE-PLATAFORMA
+# Padrão: qualquer arquivo não coberto abaixo
+* @IgorOCosta
 
-# Contrato de API — exige revisão de backend e frontend
-/openapi.yaml @SUA-ORG/SEU-TIME-BACKEND @SUA-ORG/SEU-TIME-FRONTEND
+# Contrato de API (consumido pelo frontend, gerado pelo Backend)
+/openapi.yaml @IgorOCosta
 
-# Arquitetura e decisões cross-repo
-/ARCHITECTURE.md @SUA-ORG/SEU-TECH-LEAD
-/docs/adr/ @SUA-ORG/SEU-TECH-LEAD
+# Arquitetura e decisões que cruzam repositórios
+/ARCHITECTURE.md @IgorOCosta
+/docs/adr/ @IgorOCosta
 
-# Governança do próprio repositório template
-/.github/ @SUA-ORG/SEU-TIME-DE-PLATAFORMA
+# Governança do repositório
+/.github/ @IgorOCosta

@@ -1,64 +1,74 @@
 # AGENTS.md
 
-## Este é um repositório TEMPLATE
+## Leia primeiro: OWNER.md
 
-Este repositório (`docs/shared`) é um **template do GitHub**. Ele não
-representa, por si só, um projeto real — ele é copiado ("Use this
-template") para criar o `docs/shared` de cada projeto que tenha mais de um
-repositório (backend, frontend, microservices).
+[`OWNER.md`](OWNER.md) é o canal entre o agente e o dono. **No início de cada sessão, leia-o.**
+Se um item dele bloqueia a tarefa, pare e avise. Tudo que depender do dono (decisão, conta,
+secret, proteção de branch) é **escrito lá**, não só numa issue ou na conversa.
 
-## Se você é um agente de IA operando neste repositório agora
+## O que é este repositório
 
-1. **Se existir um `BOOTSTRAP.md` na raiz deste repositório**, leia e siga
-   ele antes de qualquer outra coisa. Ele contém um roteiro de entrevista
-   que precisa ser concluído com o humano responsável antes que qualquer
-   conteúdo real (`ARCHITECTURE.md`, `GLOSSARY.md`, etc.) seja gerado. Não
-   pule etapas do `BOOTSTRAP.md` mesmo que pareça óbvio o que preencher.
+`Project-PKA/shared` é o `docs/shared` do **pokemonAuction** (nome
+provisório): uma plataforma SaaS B2B de leilões de cartas TCG via WhatsApp.
+Aqui vive o que atravessa mais de um repositório e não pertence a nenhum
+isoladamente. Não roda código de aplicação e não tem deploy.
 
-2. **Se `BOOTSTRAP.md` não existir mais** (já foi apagado ao final do
-   setup inicial), este repositório está em operação normal. Siga a
-   estrutura abaixo.
+Repositórios do projeto: `Project-PKA/Backend`, `Project-PKA/frontend_web`,
+`Project-PKA/whatsapp_microservice` e este.
 
-## Estrutura normal (pós-bootstrap)
+## Estrutura
 
-Este repositório contém o que é compartilhado entre todos os repositórios
-do projeto e não pertence a nenhum isoladamente:
+- [`openapi.yaml`](openapi.yaml): contrato de API. É **gerado pelo Backend**
+  (`make openapi`) e chega aqui por PR aberto pelo workflow
+  `publish-contract.yml` do Backend. Não o edite à mão aqui; mude o código
+  do Backend.
+- [`ARCHITECTURE.md`](ARCHITECTURE.md): como os repositórios se conectam,
+  autenticação entre serviços, diagrama C4 e riscos aceitos.
+- [`docs/adr/`](docs/adr/): decisões que afetam mais de um repositório.
+- [`OWNER.md`](OWNER.md): canal do dono (decisões e ações pendentes, resolvidos).
+- [`docs/produto.md`](docs/produto.md): escopo de produto (papéis, regras de
+  negócio vigentes e mapa de telas).
+- [`docs/processo.md`](docs/processo.md): issues, sprints e rótulos (vale para os
+  quatro repositórios).
+- [`GLOSSARY.md`](GLOSSARY.md): vocabulário de domínio.
+- [`CONTRIBUTING.md`](CONTRIBUTING.md): como propor mudanças.
 
-- [`openapi.yaml`](openapi.yaml) — contrato de API único entre backend e
-  frontend. Fonte única de verdade.
-- [`ARCHITECTURE.md`](ARCHITECTURE.md) — arquitetura do sistema como um
-  todo: como os repositórios se conectam, autenticação entre serviços,
-  diagrama de contexto.
-- [`docs/adr/`](docs/adr/) — decisões de arquitetura que afetam mais de um
-  repositório.
-- [`GLOSSARY.md`](GLOSSARY.md) — vocabulário de domínio/negócio
-  compartilhado.
-- [`CONTRIBUTING.md`](CONTRIBUTING.md) — como propor mudanças nos itens
-  acima, válido para todos os repositórios do projeto.
+## Se você é um agente de IA em OUTRO repositório do projeto
 
-Mudanças aqui seguem o processo em [`CONTRIBUTING.md`](CONTRIBUTING.md).
+Antes de tomar decisão de arquitetura ou de contrato de API, faça nesta
+ordem:
 
-## Se você é um agente de IA operando em OUTRO repositório do projeto (backend, frontend, microservice)
+1. Leia [`ARCHITECTURE.md`](ARCHITECTURE.md) para saber onde o repositório
+   atual se encaixa.
+2. Leia [`openapi.yaml`](openapi.yaml) antes de implementar ou consumir
+   qualquer endpoint.
+3. Consulte [`docs/adr/`](docs/adr/) para decisões já tomadas ou descartadas.
+4. Use os termos de [`GLOSSARY.md`](GLOSSARY.md) para nomear campos,
+   endpoints, eventos e variáveis. Não invente sinônimos.
 
-Este repositório (`docs/shared`) é a **referência** para os demais
-repositórios do projeto. Antes de tomar qualquer decisão de arquitetura ou
-de contrato de API dentro de um repositório individual, um agente deve:
+Se uma decisão cross-repo for necessária e não estiver documentada aqui,
+**sinalize ao humano** em vez de decidir dentro do repositório individual.
+Essas decisões pertencem a este repositório, via issue e ADR
+(`CONTRIBUTING.md`).
 
-1. Ler [`ARCHITECTURE.md`](ARCHITECTURE.md) deste repositório para entender
-   como o sistema como um todo se conecta e onde o repositório atual se
-   encaixa.
-2. Ler [`openapi.yaml`](openapi.yaml) antes de implementar ou consumir
-   qualquer endpoint — não confiar apenas no que já existe implementado
-   localmente, o contrato aqui é a fonte de verdade.
-3. Consultar [`docs/adr/`](docs/adr/) para decisões cross-repo já tomadas,
-   antes de propor algo que talvez já tenha sido decidido (ou descartado)
-   anteriormente.
-4. Usar os termos definidos em [`GLOSSARY.md`](GLOSSARY.md) ao nomear
-   campos, endpoints, eventos ou variáveis que representem conceitos de
-   domínio — não inventar sinônimos.
+## Regras ao mexer aqui
 
-Se uma decisão de arquitetura ou de contrato de API for necessária e ainda
-não estiver documentada aqui, o agente deve sinalizar isso ao humano em vez
-de decidir unilateralmente dentro do repositório individual — essas
-decisões pertencem a este repositório (`docs/shared`), via issue e ADR,
-conforme [`CONTRIBUTING.md`](CONTRIBUTING.md).
+- Decisão cross-repo = ADR nova em `docs/adr/` (próximo número, sem reuso),
+  seguindo o modelo da ADR 0001. ADR aceita não se edita: cria-se outra que a
+  supera.
+- Termo de negócio novo que aparece em mais de um repositório entra no
+  `GLOSSARY.md` no mesmo PR.
+- Branches e commits seguem Conventional Commits (`docs: ...`,
+  `docs/nome-curto`).
+- **Pare e pergunte** antes de: mudar contrato de forma incompatível,
+  alterar `.github/workflows/**`, alterar `CODEOWNERS`, ou reabrir uma ADR
+  aceita.
+
+## Pendências conhecidas
+
+Marcadas como `PENDENTE` ou `A DECIDIR` nas ADRs e no `ARCHITECTURE.md`:
+provedor
+de e-mail do OTP, estratégia de concorrência de lances, LGPD, canal de aviso
+em tempo real do painel, cobrança da assinatura da plataforma, armazenamento de
+arquivos (fotos, avatar, comprovante) e como "Avisar cliente no WhatsApp"
+envia a mensagem. Detalhes em `docs/produto.md`, seção 6.

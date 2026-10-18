@@ -1,79 +1,50 @@
-# docs/shared (template)
+# pokemonAuction · shared
 
-Template de repositório para o que é **compartilhado entre todos os
-repositórios de um projeto** (backend, frontend e, quando existirem,
-microservices) e não pertence a nenhum deles isoladamente:
+> Nome do produto provisório. Este é o `docs/shared` do projeto: o que é
+> **compartilhado entre todos os repositórios** e não pertence a nenhum deles.
 
-- o contrato de API (`openapi.yaml`),
-- a arquitetura do sistema como um todo (`ARCHITECTURE.md`, `docs/adr/`),
-- o vocabulário de domínio/negócio (`GLOSSARY.md`).
+O pokemonAuction é um SaaS B2B multi-tenant para lojistas de Trading Card
+Games fazerem leilões de cartas em grupos de WhatsApp. Este repositório **não
+roda código de aplicação** e não tem deploy. Ele guarda:
 
-Este repositório **não roda código de aplicação** — não há deploy aqui.
-As únicas automações são: validar que a documentação está bem formada
-(`validate-openapi.yml`) e, opcionalmente, notificar outros repositórios
-quando o contrato de API muda (`notify-consumers.yml`).
+| Arquivo | O que é |
+| --- | --- |
+| [`ARCHITECTURE.md`](ARCHITECTURE.md) | Como os repositórios se conectam, diagrama C4, autenticação entre serviços e riscos aceitos |
+| [`OWNER.md`](OWNER.md) | **Canal do dono**: decisões e ações que dependem dele, e o que já foi resolvido |
+| [`docs/produto.md`](docs/produto.md) | Escopo de produto: papéis, regras e mapa de telas (doc 01 + adendo do design) |
+| [`docs/processo.md`](docs/processo.md) | Issues, sprints, rótulos e o que o agente pode fazer sozinho |
+| [`docs/adr/`](docs/adr/) | Decisões que afetam mais de um repositório (ADRs 0001 a 0017) |
+| [`GLOSSARY.md`](GLOSSARY.md) | Vocabulário de negócio, com o nome de cada termo no código |
+| [`openapi.yaml`](openapi.yaml) | Contrato de API, **gerado pelo Backend** e publicado aqui por PR |
+| [`docs/secrets.md`](docs/secrets.md) | Nome do secret deste repositório |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md) | Como propor mudanças |
+| [`AGENTS.md`](AGENTS.md) | Contexto para agentes de IA |
 
-## Como criar um projeto real a partir deste template
+## Repositórios do projeto
 
-No GitHub, use o botão **"Use this template"** nesta página do repositório
-— **não faça fork**. Fork mantém um vínculo de histórico com este template
-que não faz sentido aqui; "Use this template" cria um repositório novo e
-independente, que é o que cada projeto precisa.
+| Repositório | Papel |
+| --- | --- |
+| [`Backend`](https://github.com/Project-PKA/Backend) | API e dono do schema do banco |
+| [`whatsapp_microservice`](https://github.com/Project-PKA/whatsapp_microservice) | Sessões de WhatsApp, leitura de lances e moderação do grupo |
+| [`frontend_web`](https://github.com/Project-PKA/frontend_web) | Painel do lojista e landing page (UI/UX em andamento) |
+| **shared** (este) | Contrato, ADRs e glossário |
 
-Depois de criar o repositório:
+## Como os outros repositórios usam este
 
-1. Ele terá um `BOOTSTRAP.md` na raiz. Siga o roteiro descrito nele — é uma
-   entrevista curta (nome do projeto, quais repositórios vão consumir este
-   `docs/shared`, termos de domínio) que precisa ser respondida antes de
-   qualquer conteúdo real ser gerado.
-2. Ao final do `BOOTSTRAP.md`, ele mesmo é apagado — isso marca o fim do
-   setup inicial.
-3. Complete o checklist de configuração manual abaixo (não é feito pelo
-   `BOOTSTRAP.md`, precisa da interface do GitHub).
+- **Contrato de API:** o Backend gera o `openapi.yaml` a partir do código e
+  abre um PR aqui. O frontend consome a versão publicada aqui, nunca uma cópia.
+  Não edite o `openapi.yaml` à mão neste repositório.
+- **Arquitetura:** decisão que atravessa mais de um repositório é discutida e
+  registrada aqui (`docs/adr/`), não em um repositório individual.
+- **Agentes de IA:** antes de decisão de arquitetura ou de contrato, leia
+  `ARCHITECTURE.md`, `openapi.yaml`, `docs/adr/` e `GLOSSARY.md` daqui. Veja
+  [`AGENTS.md`](AGENTS.md).
+- **Notificação automática:** quando `openapi.yaml` muda em `main`,
+  `notify-consumers.yml` avisa os consumidores (hoje, o `frontend_web`) por
+  `repository_dispatch`.
 
-## Como os outros repositórios do projeto devem referenciar este
+## Pendências do dono
 
-- **Contrato de API:** o backend implementa e o frontend consome a partir
-  de `openapi.yaml` deste repositório — não copiar o arquivo, referenciar
-  a versão publicada aqui (ex.: via submodule, download no CI, ou pacote
-  publicado a partir deste contrato, conforme o projeto decidir).
-- **Arquitetura:** qualquer decisão de arquitetura que atravesse mais de um
-  repositório é discutida e registrada aqui (`docs/adr/`), não em um dos
-  repositórios individuais.
-- **Agentes de IA:** qualquer agente operando em outro repositório do
-  projeto deve ler `ARCHITECTURE.md`, `openapi.yaml`, `docs/adr/` e
-  `GLOSSARY.md` deste repositório antes de decisões de arquitetura ou de
-  contrato — ver [`AGENTS.md`](AGENTS.md).
-- **Notificação automática:** quando `openapi.yaml` muda na branch
-  principal deste repositório, `notify-consumers.yml` dispara um evento
-  `repository_dispatch` para os repositórios configurados nele, para que
-  possam reagir (ex.: regenerar types).
-
-## Checklist de configuração manual (GitHub, feito uma vez, por template ou por projeto)
-
-Estes passos não podem ser automatizados por commit — são feitos na
-interface do GitHub:
-
-- [ ] **Marcar este repositório como Template Repository**
-      (Settings → General → Template repository).
-- [ ] **Branch de proteção da branch principal** (Settings → Branches):
-      exigir PR antes de merge, exigir que `validate-openapi.yml` passe.
-- [ ] **Times/usuários referenciados em [`CODEOWNERS`](.github/CODEOWNERS)**
-      precisam existir na organização e ter acesso de escrita ao
-      repositório antes do CODEOWNERS funcionar.
-- [ ] **Ativar "Require review from Code Owners"** na proteção de branch,
-      para que o `CODEOWNERS` seja de fato obrigatório.
-
-### Ao criar um projeto real a partir deste template
-
-- [ ] Criar o secret `CONTRACT_DISPATCH_TOKEN` neste novo repositório
-      (Settings → Secrets and variables → Actions), com um token (PAT
-      fine-grained ou GitHub App) com permissão de disparar eventos nos
-      repositórios de destino configurados em
-      [`notify-consumers.yml`](.github/workflows/notify-consumers.yml).
-      **Sem esse secret, `notify-consumers.yml` falha silenciosamente ao
-      tentar notificar os outros repositórios.**
-- [ ] Confirmar que os repositórios de destino (backend, frontend,
-      microservices) têm um workflow ouvindo o evento
-      `repository_dispatch` do tipo `openapi-contract-updated` (exemplo
-      comentado no final de `notify-consumers.yml`).
+Tudo que só o dono pode decidir ou fazer (conta, secrets, proteção de branch, decisões de
+produto) está em [`OWNER.md`](OWNER.md), o **canal principal** entre o agente e o dono.
+Este repositório não deve mais ser marcado como *Template repository*.

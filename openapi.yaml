@@ -1,13 +1,13 @@
 openapi: 3.0.3
 info:
-  title: "[NOME DO PROJETO] API"
+  title: "pokemonAuction API"
   description: >
     Contrato de API único e compartilhado entre backend e frontend deste projeto.
     Este arquivo é a fonte única de verdade: qualquer mudança de contrato passa
     por PR neste repositório antes de ser implementada nos repositórios consumidores.
   version: 0.1.0
   contact:
-    name: "[Time responsável pelo backend]"
+    name: "Project-PKA/Backend"
 
 servers:
   - url: https://api.example.com/v1
