@@ -13,7 +13,7 @@ roda código de aplicação** e não tem deploy. Ele guarda:
 | [`OWNER.md`](OWNER.md) | **Canal do dono**: decisões e ações que dependem dele, e o que já foi resolvido |
 | [`docs/produto.md`](docs/produto.md) | Escopo de produto: papéis, regras e mapa de telas (doc 01 + adendo do design) |
 | [`docs/processo.md`](docs/processo.md) | Issues, sprints, rótulos e o que o agente pode fazer sozinho |
-| [`docs/adr/`](docs/adr/) | Decisões que afetam mais de um repositório (ADRs 0001 a 0016) |
+| [`docs/adr/`](docs/adr/) | Decisões que afetam mais de um repositório (ADRs 0001 a 0017) |
 | [`GLOSSARY.md`](GLOSSARY.md) | Vocabulário de negócio, com o nome de cada termo no código |
 | [`openapi.yaml`](openapi.yaml) | Contrato de API, **gerado pelo Backend** e publicado aqui por PR |
 | [`docs/secrets.md`](docs/secrets.md) | Nome do secret deste repositório |
