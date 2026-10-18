@@ -36,6 +36,10 @@ jobs:
   notify:
     name: Disparar repository_dispatch
     runs-on: ubuntu-latest
+    env:
+      # O token de outro repositório é uma ação do dono (OWNER.md, A2). Sem ele o job é pulado em
+      # vez de falhar e mandar e-mail de erro a cada mudança do contrato.
+      DISPATCH_TOKEN: ${{ secrets.CONTRACT_DISPATCH_TOKEN || secrets.AUTOMATION_TOKEN }}
     strategy:
       matrix:
         # >>> PLACEHOLDER: substituir pelos repositórios reais do projeto.
@@ -44,10 +48,15 @@ jobs:
           # O Backend publica o contrato aqui (publish-contract.yml), não o consome.
           # O whatsapp_microservice acessa o banco, não a API: sem tipos gerados.
     steps:
+      - name: Sem token configurado
+        if: env.DISPATCH_TOKEN == ''
+        run: echo "::notice::CONTRACT_DISPATCH_TOKEN (ou AUTOMATION_TOKEN) não configurado; ${{ matrix.repo }} não foi notificado."
+
       - name: Disparar evento para ${{ matrix.repo }}
+        if: env.DISPATCH_TOKEN != ''
         uses: peter-evans/repository-dispatch@v3
         with:
-          token: ${{ secrets.CONTRACT_DISPATCH_TOKEN }}
+          token: ${{ env.DISPATCH_TOKEN }}
           repository: ${{ matrix.repo }}
           event-type: openapi-contract-updated
           client-payload: >-
