@@ -46,7 +46,6 @@ Só você consegue. O agente não cria secrets, não mexe em proteção de branc
 | A3 | **Environments** `dev`, `test`, `homolog` (com aprovação) e `prod` (com aprovação) | Quando existir VPS e deploy | `Backend/SETUP-GITHUB.md`, B4. Os nomes dos secrets estão em `Backend/docs/secrets.md` | [Backend#5](https://github.com/Project-PKA/Backend/issues/5) · [shared#17](https://github.com/Project-PKA/shared/issues/17) |
 | A4 | **SonarCloud** (hoje **desligado**) | Quando quiser a análise de qualidade e o Quality Gate | Criar o projeto no SonarCloud, gerar o token e cadastrar o secret `SONAR_TOKEN`; preencher `sonar.organization` e `sonar.projectKey` em `Backend/sonar-project.properties`; remover `sonar: false` do `ci.yml`; desligar a "Automatic Analysis" no SonarCloud | [Backend#6](https://github.com/Project-PKA/Backend/issues/6) · [shared#18](https://github.com/Project-PKA/shared/issues/18) |
 | A5 | **Secret scanning** e **push protection** | Já | Settings, Code security, ativar nos 4 repositórios (`SETUP-GITHUB.md`, A4) | [Backend#5](https://github.com/Project-PKA/Backend/issues/5) · [shared#17](https://github.com/Project-PKA/shared/issues/17) |
-| A6 | **Revisar e mergear os PRs** | Quando quiser entregar | Ordem: Backend #66, #67, #69, #70 (de baixo para cima) · shared #7 · bot #6 fica em rascunho até o bootstrap do bot. Atenção ao D9 | ver abaixo · [shared#8](https://github.com/Project-PKA/shared/issues/8) |
 | A9 | **Conta de WhatsApp para testar o bot** | Toda a implementação do bot (Sprint 05). Sem ela, o bot só avança com eventos simulados | Um número dedicado a teste (chip pré-pago serve) e um grupo de teste onde ele seja administrador. Nunca usar o número da loja real para teste | [whatsapp_microservice#1](https://github.com/Project-PKA/whatsapp_microservice/issues/1) · [shared#20](https://github.com/Project-PKA/shared/issues/20) |
 | A7 | **VPS e domínio** | Para qualquer deploy | Contratar a VPS e registrar o domínio. Ver `Backend/DEPLOY.md` (requisitos de segurança) | — · [shared#19](https://github.com/Project-PKA/shared/issues/19) |
 | A8 | **Quadro do GitHub Projects** (opcional) | Se quiser o quadro | Rode `gh auth refresh -s project` (abre o navegador) e me avise; eu crio o quadro. Os milestones já fazem o papel | — · [shared#21](https://github.com/Project-PKA/shared/issues/21) |
@@ -55,11 +54,7 @@ Só você consegue. O agente não cria secrets, não mexe em proteção de branc
 
 | Repositório | PR | O que é |
 | --- | --- | --- |
-| Backend | [#66](https://github.com/Project-PKA/Backend/pull/66) → [#67](https://github.com/Project-PKA/Backend/pull/67) → [#69](https://github.com/Project-PKA/Backend/pull/69) → [#70](https://github.com/Project-PKA/Backend/pull/70) | Etapas 1 a 2b, Dockerfile, Sonar desligado |
-| Backend | [#71](https://github.com/Project-PKA/Backend/pull/71) → [#72](https://github.com/Project-PKA/Backend/pull/72) → [#73](https://github.com/Project-PKA/Backend/pull/73) | Catálogo, estoque, leilões (`place_bid`), clientes, job de abertura e fechamento |
-| Backend | [#74](https://github.com/Project-PKA/Backend/pull/74) → [#75](https://github.com/Project-PKA/Backend/pull/75) → [#76](https://github.com/Project-PKA/Backend/pull/76) | Acertos e envios, páginas públicas, painéis (Home e Financeiro) |
-| Backend | [#77](https://github.com/Project-PKA/Backend/pull/77) → [#78](https://github.com/Project-PKA/Backend/pull/78) | Administração da plataforma, perfil, notificações, plano e vitrine |
-| shared | [#7](https://github.com/Project-PKA/shared/pull/7) | Produto, ADRs 0002 a 0014, processo e este canal |
+| Backend | [#84](https://github.com/Project-PKA/Backend/pull/84) | "Já paguei" do comprador (só avisa a loja). Aguardando seu ok para mergear |
 | frontend_web | [#6](https://github.com/Project-PKA/frontend_web/pull/6) | Registra o protótipo de UI/UX (`design/`), copiado sem alteração. CI vermelho por ser template |
 | whatsapp_microservice | [#6](https://github.com/Project-PKA/whatsapp_microservice/pull/6) | Só documentação; CI vermelho até o bootstrap do bot |
 
@@ -87,3 +82,5 @@ real de usuário · escolher por você uma decisão desta lista.
 | 2026-10-18 | D13: desenho das páginas públicas | **Aprovado** pelo dono (papel `public_runtime` sem acesso a tabelas, só `EXECUTE` em funções `SECURITY DEFINER` com `search_path` fixo). Implementado nos PRs do Backend |
 | 2026-10-18 | `ioredis` | Dependência exigida pelo BullMQ 6; o dono mandou manter |
 | 2026-10-18 | D9: merge da pilha de PRs | **Merge commit, um a um**, de baixo para cima (Backend #66 a #78), com 'Automatically delete head branches' ligado para o GitHub redirecionar o próximo PR para `main`. Sem squash e sem reescrever branch |
+| 2026-10-18 | A6: revisar e mergear os PRs | **Feito**: Backend #66 a #78 e shared #7 mergeados por merge commit, de baixo para cima. O CI de `main` ficou verde |
+| 2026-10-18 | Backend até a Sprint 08 | Catálogo, estoque, leilões, clientes, acertos, envios, páginas públicas, painéis, administração, perfil, notificações, plano e vitrine estão em `main`. Sobra o que depende das decisões acima (e-mail, armazenamento, LGPD, bot) |
