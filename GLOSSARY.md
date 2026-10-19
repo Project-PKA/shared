@@ -63,7 +63,7 @@ frontend_web, `bot` = whatsapp_microservice.
 
 | Termo | Definição | Termo no código | Repositórios |
 |---|---|---|---|
-| Acerto | Fechamento pós-leilão com um comprador: soma das cartas ganhas mais o frete informado à mão. O lojista marca como pago. | `settlement` | `backend`, `frontend` |
+| Acerto | Fechamento pós-leilão com um comprador: soma das cartas ganhas (sem frete: o sistema não trata de envio). O lojista marca como pago. | `settlement` | `backend`, `frontend` |
 | Pago | Acerto quitado fora do sistema (sem gateway no MVP). | `PAID` | `backend`, `frontend` |
 | Repasse | Valor a pagar ao consignador depois da venda, descontada a comissão. | A DECIDIR | `backend`, `frontend` |
 | Painel operacional | Home em tempo real: status do WhatsApp, vendas, lances, rankings e acertos pendentes, filtrada por 1, 7, 15 ou 30 dias. | `dashboard/operational` | `backend`, `frontend` |
@@ -96,16 +96,15 @@ frontend_web, `bot` = whatsapp_microservice.
 | Aprovar encerramento | Ação do lojista numa enquete que atingiu o teto. A alternativa é "Manter aberto". | `approve_poll` | `backend`, `frontend`, `bot` |
 | Vitrine pública | Página da plataforma com os leilões ao vivo das lojas que optaram por aparecer. | `public_showcase` | `backend`, `frontend` |
 
-## Acerto, envio e páginas públicas
+## Acerto e páginas públicas
 
 | Termo | Definição | Termo no código | Repositórios |
 |---|---|---|---|
 | Acertos e cadastro de compradores | Nome do recurso de fechamento. Não é garantia de pagamento nem de entrega (ADR 0013). | `settlements` | `backend`, `frontend` |
-| Página de acerto | Página pública, por link, em que o comprador vê as cartas e o frete, informa CPF e endereço com consentimento LGPD e avisa o pagamento. | `settlement_link` | `backend`, `frontend` |
+| Página de acerto | Página pública, por link, em que o comprador vê as cartas, informa CPF e endereço com consentimento LGPD e avisa o pagamento. | `settlement_link` | `backend`, `frontend` |
 | Consentimento LGPD | Registro de que o comprador aceitou o tratamento dos dados: quem, quando, versão do texto. | `consent` | `backend`, `frontend` |
 | Chave PIX da loja | Dado da loja exibido na página de acerto. O pagamento é combinado direto com a loja. | `pix_key` | `backend`, `frontend` |
 | Comprovante | Arquivo opcional que o comprador anexa ao avisar o pagamento. | `payment_proof` | `backend`, `frontend` |
-| Envio | Etapa depois da venda confirmada: a enviar, enviado, entregue, com código de rastreio. | `shipment` | `backend`, `frontend` |
 | Acompanhamento do consignador | Página pública, por link, em que o dono de uma carta consignada vê o leilão e a estimativa de repasse. | `consignor_link` | `backend`, `frontend` |
 | Chave de acesso | Segundo fator do acompanhamento: os 4 primeiros dígitos do CPF do consignador. Nunca é a única proteção (ADR 0014). | `access_key` | `backend`, `frontend` |
 | Estimativa de repasse | Maior lance menos a comissão da loja. Só vale após o encerramento e a confirmação da venda. | `estimated_payout` | `backend`, `frontend` |
