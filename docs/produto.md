@@ -55,7 +55,7 @@ dados 100% isolados.
 | **Vitrine de leilões ao vivo** | Cartões de toda a plataforma: loja, foto, estado, idioma, maior lance, nº de lances, último lance, tempo restante; "Ir para o leilão" leva ao grupo de WhatsApp da loja; filtros por loja, idioma e ordenação |
 | **Solicitar acesso** | Nome, e-mail, WhatsApp, nome da loja e mensagem |
 | **Aceitar convite** | Mostra loja, papel e permissões do funcionário |
-| **Acerto do cliente** | Resumo das cartas e do frete, CPF e endereço com máscara e consentimento LGPD, chave PIX da loja, comprovante opcional, "Já paguei, avisar a loja" |
+| **Acerto do cliente** | Resumo das cartas, CPF e endereço com máscara e consentimento LGPD, chave PIX da loja, comprovante opcional, "Já paguei, avisar a loja" |
 | **Acompanhamento do consignador** | Ver a seção 5 |
 | **Termos de uso, Política de Privacidade, 404** | Texto jurídico a revisar por profissional |
 
@@ -70,7 +70,6 @@ dados 100% isolados.
 | **Cadastro de carta** (tela única) | Busca com a arte oficial; dados da carta com **Observações**; Origem; bloco **Leilão** (agendar, lançar agora ou deixar para depois; tipo, lance mínimo, incremento, teto da enquete); gera o link do consignador quando a origem é Consignada |
 | **Leilões** | Lista, sala de lances ao vivo, **editar** (reagendar, alterar tipo e valores, cancelar), **aprovar enquete** (valor máximo, lance atual, vencedor provisório; "Aprovar encerramento" ou "Manter aberto") |
 | **Clientes** | Base, perfil com abas de Acerto, Histórico e **Carteira de consignação** (link de acompanhamento e atalho "ver como consignador"), moderação (blacklist e inatividade) |
-| **Envios** | Fila das vendas confirmadas (a enviar, enviado, entregue), código de rastreio, "Avisar cliente no WhatsApp" |
 | **Funcionários** | Equipe, convite por e-mail e matriz de permissões |
 | **Financeiro** | **Único** com filtro de período. Linha com área (faturamento e lucro por dia), histogramas (vendas por faixa de valor, lances por horário), pizzas (origem do faturamento, idioma, estado de conservação), top compradores, tabela de repasses de consignação, 4 KPIs |
 | **Configurações** | WhatsApp (QR e grupo), templates de mensagens, **Assinatura** (link para Plano), **Vitrine pública** |
@@ -110,7 +109,7 @@ das lojas.
 | Sem vitrine, sem landing | Landing de SEO e vitrine pública opcional |
 | Sem administração da plataforma | Área `/admin` e papel de administrador |
 | Sem acompanhamento do consignador | Página pública por link, com chave de acesso |
-| Sem envios, planos, perfil, notificações, log | Todos adicionados |
+| Sem envios, planos, perfil, notificações, log | Planos, perfil, notificações e log adicionados. **Envios** e frete foram retirados do sistema ([ADR 0018](adr/0018-sem-frete-sem-envio-e-sem-mensagem-privada.md)) |
 
 ## 5. Acompanhamento do consignador
 
@@ -137,6 +136,6 @@ das lojas.
 | Idioma (l10n) além do português | Previsto no perfil, não no MVP |
 | Moeda além do real | Previsto no perfil |
 | Armazenamento de fotos, avatar e comprovante | A decidir (disco da VPS ou bucket) |
-| "Avisar cliente no WhatsApp" (Envios) | A decidir: link `wa.me` aberto pela loja (coerente com a ADR 0006) ou mensagem enviada pelo bot |
+| "Avisar cliente no WhatsApp" (Envios) | **Retirado** (ADR 0018): o sistema não tem envios e o bot só fala no grupo |
 | Texto de Termos de uso e Política de Privacidade | Profissional jurídico |
 | Uso da arte e dos nomes das cartas, e atribuição ao catálogo | Conferir a licença do catálogo e as regras de marca antes de publicar a vitrine |
