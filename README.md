@@ -17,7 +17,7 @@ roda código de aplicação** e não tem deploy. Ele guarda:
 | [`GLOSSARY.md`](GLOSSARY.md) | Vocabulário de negócio, com o nome de cada termo no código |
 | [`openapi.yaml`](openapi.yaml) | Contrato de API, **gerado pelo Backend** e publicado aqui por PR |
 | [`docs/secrets.md`](docs/secrets.md) | Nome do secret deste repositório |
-| [`compose.yaml`](compose.yaml) | **Ambiente local completo** (banco, Redis, e-mail, API e frontend) para testar tudo junto, ver abaixo |
+| [`compose.yaml`](compose.yaml) | **Ambiente local completo** (banco, Redis, e-mail, API e frontend) para testar tudo junto (inclui o bot, em perfil à parte), ver abaixo |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | Como propor mudanças |
 | [`AGENTS.md`](AGENTS.md) | Contexto para agentes de IA |
 
@@ -47,7 +47,15 @@ http://localhost:8081 (a 8080 é deixada livre) e as fotos e comprovantes ficam 
 `docker compose run --rm create-admin voce@exemplo.com "Seu Nome"`.
 
 `docker compose down` desliga e mantém os dados; `docker compose down -v` apaga tudo. O bot de WhatsApp
-ainda não tem código e não está incluído. Portas e detalhes: `compose.yaml` e `.env.example`.
+só sobe com `docker compose --profile bot up -d --build` e, sem conta pareada (falta o gatilho do painel, OWNER.md D20), apenas fica de pé em http://localhost:8082/health. Portas e detalhes: `compose.yaml` e `.env.example`.
+
+**Teste de integração entre os serviços** (API, banco, e-mail, frontend e bot), com o ambiente de pé e o seed aplicado:
+
+```bash
+node scripts/smoke.mjs
+```
+
+Para testar sem tocar no seu ambiente, suba um segundo com outro nome e outras portas (`docker compose -p itest --env-file itest.env up -d --build`, com `WEB_PORT`, `API_PORT`, `MAILPIT_*`, `DB_PORT`, `REDIS_PORT` e `BOT_PORT` diferentes) e aponte o script com `API_URL`, `WEB_URL`, `MAILPIT_URL`, `BOT_URL` e `COMPOSE_PROJECT`. Para testar outra cópia do código (um `git worktree`), use `BACKEND_DIR`, `WEB_DIR` e `BOT_DIR`.
 
 ## Como os outros repositórios usam este
 
