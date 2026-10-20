@@ -5,6 +5,7 @@
 # API a partir do código local e roda o frontend em modo dev com recarga automática.
 #
 #   docker compose up -d --build           # sobe tudo (a primeira vez demora)
+#   docker compose --profile bot up -d --build   # idem, com o bot de WhatsApp (sem conta pareada)
 #   docker compose run --rm seed           # dados de exemplo (APAGA o banco; só desenvolvimento)
 #   docker compose down                    # desliga (mantém os dados)
 #   docker compose down -v                 # desliga e APAGA banco e arquivos
@@ -16,7 +17,14 @@
 # Contas do seed: dono@example.com, funcionario@example.com e admin@example.com. O login é por código
 # enviado ao e-mail: peça o código na tela e abra o Mailpit.
 #
-# O bot de WhatsApp (`whatsapp_microservice`) ainda é um modelo sem código e fica de fora.
+# O bot de WhatsApp (`whatsapp_microservice`) só sobe com `--profile bot`.
+#
+# Outras pastas: BACKEND_DIR, WEB_DIR e BOT_DIR (padrão: ../Backend, ../frontend_web e
+# ../whatsapp_microservice) apontam para outra cópia do código, por exemplo um `git worktree`.
+# Outro ambiente ao mesmo tempo (testes): `docker compose -p outro ...` com portas diferentes no `.env`.
+#
+# Parear a conta de WhatsApp do bot ainda não é possível por aqui: falta o gatilho do painel (OWNER.md, D20).
+# Enquanto isso o bot sobe sem sessão e só confere as lojas a cada minuto (health em :${BOT_PORT:-8082}).
 # SÓ DESENVOLVIMENTO: os segredos abaixo são valores de teste, nunca usados fora desta máquina.
 # =============================================================================
 name: pokemon-auction-local
@@ -29,6 +37,8 @@ x-api-env: &api-env
   JWT_ACCESS_SECRET: dev-only-jwt-access-secret-change-me-0123456789
   REFRESH_TOKEN_PEPPER: dev-only-refresh-pepper-change-me-0123456789
   OTP_HASH_SECRET: dev-only-otp-hash-secret-change-me-0123456789
+  # Mesma chave do seed (SEED_CPF_KEY do Backend): o CPF dos dados de exemplo só abre com ela.
+  CPF_ENCRYPTION_KEY: &cpf-key dev-only-cpf-encryption-key-change-me-0123456789
   EMAIL_PROVIDER: smtp
   SMTP_HOST: mailpit
   SMTP_PORT: "1025"
@@ -77,7 +87,7 @@ services:
   # Aplica as migrations e cria o papel de login da API (app_api, sem BYPASSRLS). Idempotente.
   setup:
     build:
-      context: ../Backend
+      context: ${BACKEND_DIR:-../Backend}
     image: pokemon-auction-api:local
     command:
       - sh
@@ -100,6 +110,19 @@ services:
     environment:
       APP_ENV: local
       MIGRATION_DATABASE_URL: postgresql://app:app@db:5432/app
+      CPF_ENCRYPTION_KEY: *cpf-key
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+
+  # Cifra CPFs antigos (clientes anteriores à migration 0024): `docker compose run --rm encrypt-cpf`.
+  encrypt-cpf:
+    profiles: [tools]
+    image: pokemon-auction-api:local
+    command: ["node", "dist/db/encrypt-cpf.js"]
+    environment:
+      MIGRATION_DATABASE_URL: postgresql://app:app@db:5432/app
+      CPF_ENCRYPTION_KEY: *cpf-key
     depends_on:
       setup:
         condition: service_completed_successfully
@@ -149,12 +172,38 @@ services:
     ports:
       - "127.0.0.1:${WEB_PORT:-3000}:3000"
     volumes:
-      - ../frontend_web:/app
+      - ${WEB_DIR:-../frontend_web}:/app
       - web_node_modules:/app/node_modules
     depends_on:
       - api
 
+  # Bot de WhatsApp (perfil `bot`). Entra no banco com o login PRÓPRIO `bot_api` (grupo bot_runtime, sem
+  # BYPASSRLS). Sem sessão pareada ele só fica de pé (health check) e confere as lojas a cada minuto.
+  bot:
+    profiles: [bot]
+    build:
+      context: ${BOT_DIR:-../whatsapp_microservice}
+    image: pokemon-auction-bot:local
+    init: true
+    environment:
+      ENVIRONMENT: development
+      SERVICE_NAME: whatsapp-microservice
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      HEALTH_PORT: "8080"
+      DATABASE_URL: postgresql://bot_api:bot_api_dev_password_0123456789@db:5432/app
+      SESSION_DB_TEMPLATE: /app/sessions/{store_id}.sqlite3
+      STORAGE_DIR: /app/storage
+    ports:
+      - "127.0.0.1:${BOT_PORT:-8082}:8080"
+    volumes:
+      - storage_data:/app/storage:ro
+      - bot_sessions:/app/sessions
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+
 volumes:
+  bot_sessions:
   db_data:
   redis_data:
   storage_data:
