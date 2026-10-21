@@ -33,3 +33,20 @@ retenção, exclusão de loja e textos jurídicos ficam para quando houver loja 
   então a chave entra no backup separado dos dados (`docs/secrets.md`).
 - **Mais difícil:** trocar a chave exige reescrever as linhas (o script `db:encrypt-cpf` cifra o que ainda está em texto; a rotação de chave fica para quando houver necessidade).
   O formato com prefixo `v1` permite trocar o algoritmo depois.
+
+## Atualização (2026-10-21): anonimização de cliente e visitante
+
+O item 5 da decisão deixava a exclusão de dados pendente. Ela passa a existir como **anonimização**
+(Backend#43, shared#39), sem mudar o restante desta ADR:
+
+- `POST /v1/customers/{id}/anonymize` apaga nome, telefone, e-mail, CPF (e `cpf_last2`/`cpf_key_hash`),
+  endereço, a mensagem original dos lances (`bids.raw_whatsapp_message`), o IP do consentimento e o
+  comprovante do acerto, e revoga os links públicos.
+- A linha do cliente e o id ficam, então leilões, lances e acertos continuam consistentes e somáveis.
+  O cliente anonimizado entra na blacklist (o `place_bid` recusa lance) e não se edita mais.
+- O log de atividades guarda só o id.
+- **Continua fora:** retenção automática por prazo, "excluir loja" e texto jurídico (só com loja real).
+  O telefone e os dados anteriores continuam existindo em backups antigos do banco.
+- **Rotação da chave** (shared#47): `npm run db:rotate-cpf-key` recifra todos os CPFs numa transação, de
+  `CPF_ENCRYPTION_KEY_OLD` para `CPF_ENCRYPTION_KEY`, e recalcula `cpf_key_hash`. O `restore.sh` do
+  Backend confere que os CPFs do backup abrem com a chave. Guarda e passo a passo em `docs/secrets.md`.
