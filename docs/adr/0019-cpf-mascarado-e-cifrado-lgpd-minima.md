@@ -47,3 +47,6 @@ O item 5 da decisão deixava a exclusão de dados pendente. Ela passa a existir 
 - O log de atividades guarda só o id.
 - **Continua fora:** retenção automática por prazo, "excluir loja" e texto jurídico (só com loja real).
   O telefone e os dados anteriores continuam existindo em backups antigos do banco.
+- **Rotação da chave** (shared#47): `npm run db:rotate-cpf-key` recifra todos os CPFs numa transação, de
+  `CPF_ENCRYPTION_KEY_OLD` para `CPF_ENCRYPTION_KEY`, e recalcula `cpf_key_hash`. O `restore.sh` do
+  Backend confere que os CPFs do backup abrem com a chave. Guarda e passo a passo em `docs/secrets.md`.
